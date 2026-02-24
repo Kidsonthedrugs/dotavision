@@ -99,18 +99,18 @@ export function MMRGraph({
           <div>
             <p className="text-sm text-foreground-muted">Current MMR</p>
             <p className="text-2xl font-bold" style={{ color: getMMRColor(currentMMR) }}>
-              {currentMMR.toLocaleString()}
+              {(currentMMR ?? 0).toLocaleString()}
               <span className={`ml-2 text-sm ${trendColor}`}>{trendIcon}</span>
             </p>
             <p className="text-xs text-foreground-muted">{getMMRTier(currentMMR)}</p>
           </div>
           <div>
             <p className="text-sm text-foreground-muted">Peak (Last {timeRange}d)</p>
-            <p className="text-lg font-semibold text-accent">{peakMMR.toLocaleString()}</p>
+            <p className="text-lg font-semibold text-accent">{(peakMMR ?? 0).toLocaleString()}</p>
           </div>
           <div>
             <p className="text-sm text-foreground-muted">Lowest</p>
-            <p className="text-lg font-semibold text-foreground-muted">{lowestMMR.toLocaleString()}</p>
+            <p className="text-lg font-semibold text-foreground-muted">{(lowestMMR ?? 0).toLocaleString()}</p>
           </div>
         </div>
 
@@ -150,7 +150,7 @@ export function MMRGraph({
               tickLine={false}
               axisLine={false}
               domain={["dataMin - 200", "dataMax + 200"]}
-              tickFormatter={(value: number) => value.toLocaleString()}
+              tickFormatter={(value: number) => (value ?? 0).toLocaleString()}
             />
             <Tooltip
               contentStyle={{

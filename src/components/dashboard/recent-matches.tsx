@@ -128,7 +128,7 @@ export function RecentMatches({ matches, isLoading }: RecentMatchesProps) {
                 <div>
                   <span className="text-foreground-muted">Net Worth</span>
                   <p className="font-medium text-accent">
-                    {match.netWorth.toLocaleString()}
+                    {(match.netWorth ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>

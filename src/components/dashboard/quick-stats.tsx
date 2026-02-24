@@ -97,7 +97,7 @@ export function QuickStats({ stats, isLoading }: QuickStatsProps) {
       {/* Current MMR */}
       <StatCard
         label="Current MMR"
-        value={stats.mmr.toLocaleString()}
+        value={(stats.mmr ?? 0).toLocaleString()}
         subValue={getMMRTier(stats.mmr)}
         color={getMMRColor(stats.mmr)}
         icon={
