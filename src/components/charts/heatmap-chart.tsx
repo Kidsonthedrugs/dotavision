@@ -30,17 +30,19 @@ function getWinRateColor(winRate: number): string {
 }
 
 export function PerformanceHeatmap({ data, isLoading }: PerformanceHeatmapProps) {
+  const safeData = Array.isArray(data) ? data : [];
+
   const dataMap = useMemo(() => {
     const map = new Map<string, HeatmapData>();
-    data.forEach((d) => {
+    safeData.forEach((d) => {
       map.set(`${d.day}-${d.hour}`, d);
     });
     return map;
-  }, [data]);
+  }, [safeData]);
 
   const tooltipContent = useMemo(() => {
     const tooltip: Record<string, { wins: number; total: number }> = {};
-    data.forEach((d) => {
+    safeData.forEach((d) => {
       const key = `${d.day}-${d.hour}`;
       if (!tooltip[key]) {
         tooltip[key] = { wins: 0, total: 0 };
@@ -49,7 +51,7 @@ export function PerformanceHeatmap({ data, isLoading }: PerformanceHeatmapProps)
       tooltip[key].total += d.games;
     });
     return tooltip;
-  }, [data]);
+  }, [safeData]);
 
   if (isLoading) {
     return (
