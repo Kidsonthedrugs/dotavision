@@ -8,35 +8,45 @@ import { MMRGraph, PerformanceHeatmap } from "@/components/charts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { MmrHistory, SessionSummary, PlayerQuickStats, MatchCache, Hero } from "@/types";
 
-// Mock data fetching functions - replace with actual API calls
+// Safe data fetching functions that handle API response structure
 async function fetchMMRHistory(steamId: string): Promise<MmrHistory[]> {
   const response = await fetch(`/api/player/${steamId}/mmr`);
   if (!response.ok) throw new Error("Failed to fetch MMR history");
-  return response.json();
+  const json = await response.json();
+  // Handle { success: true, data: [...] } format
+  return json?.data ?? json ?? [];
 }
 
 async function fetchSession(steamId: string): Promise<SessionSummary | null> {
   const response = await fetch(`/api/player/${steamId}/session`);
   if (!response.ok) return null;
-  return response.json();
+  const json = await response.json();
+  // Handle { success: true, data: [...] } format
+  return json?.data ?? json ?? null;
 }
 
 async function fetchQuickStats(steamId: string): Promise<PlayerQuickStats | null> {
   const response = await fetch(`/api/player/${steamId}`);
   if (!response.ok) return null;
-  return response.json();
+  const json = await response.json();
+  // Handle { success: true, data: {...} } format
+  return json?.data ?? json ?? null;
 }
 
 async function fetchRecentMatches(steamId: string): Promise<Array<MatchCache & { hero?: Hero }>> {
   const response = await fetch(`/api/player/${steamId}/matches?limit=10`);
   if (!response.ok) throw new Error("Failed to fetch matches");
-  return response.json();
+  const json = await response.json();
+  // Handle { success: true, data: [...] } format
+  return json?.data ?? json ?? [];
 }
 
 async function fetchHeatmapData(steamId: string) {
   const response = await fetch(`/api/player/${steamId}/heatmap`);
   if (!response.ok) return [];
-  return response.json();
+  const json = await response.json();
+  // Handle { success: true, data: [...] } format
+  return json?.data ?? json ?? [];
 }
 
 export default function DashboardContent() {
