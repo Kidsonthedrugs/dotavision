@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dota-inspired color palette */
+  --background: #0d1117;
+  --background-secondary: #161b22;
+  --background-tertiary: #21262d;
+  --foreground: #e6edf3;
+  --foreground-muted: #8b949e;
+  
+  /* Accent colors */
+  --accent-gold: #c8aa6e;
+  --accent-gold-light: #e3d5a8;
+  --accent-gold-dark: #8a7336;
+  
+  /* Stat colors */
+  --health: #63f263;
+  --health-dark: #3fa840;
+  --mana: #5b9bf5;
+  --mana-dark: #3a6fc9;
+  --danger: #f24c4c;
+  --danger-dark: #c93434;
+  --success: #3fb950;
+  --warning: #d29922;
+  
+  /* Card and border colors */
+  --card: #161b22;
+  --card-border: #30363d;
+  --input: #21262d;
+  --ring: #c8aa6e;
+  
+  /* Shadows */
+  --shadow-gold: 0 0 20px rgba(200, 170, 110, 0.15);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  
+  --color-accent: var(--accent-gold);
+  --color-accent-light: var(--accent-gold-light);
+  --color-accent-dark: var(--accent-gold-dark);
+  
+  --color-health: var(--health);
+  --color-health-dark: var(--health-dark);
+  --color-mana: var(--mana);
+  --color-mana-dark: var(--mana-dark);
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --shadow-gold: var(--shadow-gold);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--card-border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-muted);
+}
+
+/* Gold glow effect */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.15);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-dota {
+  background: linear-gradient(180deg, var(--background) 0%, var(--background-secondary) 100%);
+}
+
+/* Stat badges */
+.stat-health {
+  background: linear-gradient(135deg, var(--health) 0%, var(--health-dark) 100%);
+}
+
+.stat-mana {
+  background: linear-gradient(135deg, var(--mana) 0%, var(--mana-dark) 100%);
+}
+
+.stat-danger {
+  background: linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%);
+}
+
+/* Animations */
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(200, 170, 110, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(200, 170, 110, 0.4);
+  }
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+/* Number trends */
+.trend-up {
+  color: var(--health);
+}
+
+.trend-down {
+  color: var(--danger);
+}
+
+.trend-neutral {
+  color: var(--foreground-muted);
+}
+
+/* Mobile-first responsive utilities */
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card grid responsive */
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Charts responsive */
+.chart-container {
+  width: 100%;
+  min-height: 200px;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    min-height: 300px;
+  }
 }

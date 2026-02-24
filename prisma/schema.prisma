@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  steamId     String    @unique
+  personaName String
+  avatar      String?
+  mmrHistory  Json?
+  settings    Json?
+  lastSynced  DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([steamId])
+}
+
+model MatchCache {
+  id          String   @id @default(cuid())
+  matchId     BigInt   @unique
+  steamId     String
+  heroId      Int
+  result      String
+  duration    Int
+  kills       Int
+  deaths      Int
+  assists     Int
+  gpm         Int
+  xpm         Int
+  role        String?
+  laneOutcome String?
+  netWorth    Int
+  heroDamage  Int
+  towerDamage Int
+  healing     Int
+  wardsPlaced Int
+  wardsDenied Int
+  lastHits10  Int
+  parsedData  Json?
+  playedAt    DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([steamId])
+  @@index([matchId])
+}
+
+model HeroStat {
+  id           String   @id @default(cuid())
+  steamId      String
+  heroId       Int
+  gamesPlayed  Int
+  wins         Int
+  losses       Int
+  avgKDA       Float
+  avgGPM       Float
+  avgXPM       Float
+  avgDuration  Float
+  winStreak    Int
+  loseStreak   Int
+  comfortScore Float
+  lastPlayed   DateTime
+
+  @@unique([steamId, heroId])
+  @@index([steamId])
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  steamId       String
+  date          DateTime
+  matchIds      Json
+  mmrStart      Int?
+  mmrEnd        Int?
+  netMMR        Int
+  winCount      Int
+  lossCount     Int
+  tiltScore     Float
+  peakHour      Int
+
+  @@index([steamId])
+}
+
+model Friendship {
+  id              String   @id @default(cuid())
+  steamId         String
+  friendSteamId   String
+  gamesTogether   Int
+  winsTogether    Int
+  lossesTogether  Int
+  synergyScore    Float
+
+  @@unique([steamId, friendSteamId])
+  @@index([steamId])
+}
